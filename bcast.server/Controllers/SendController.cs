@@ -1,16 +1,18 @@
-﻿using bcast.server.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web;
 using System.Web.Http;
+using bcast.common;
 
 namespace bcast.server.Controllers
 {
     public class SendController : ApiController
     {
+        public IDataAccess DataAccess { get; set; }
+
         [HttpGet]
         [Route("send/{id}")]
         public void Simple(string id, [FromUri] string data)
