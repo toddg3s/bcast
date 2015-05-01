@@ -16,7 +16,7 @@ namespace zztestbed
             //ctx.Account.Add(new bcast.common.Account() { Name = "blah", Locked = false });
             //ctx.SaveChanges();
 
-            var da = new DataAccessImpl();
+            //var da = new DataAccessImpl();
 
             //var endp = new Endpoint()
             //{
@@ -25,11 +25,16 @@ namespace zztestbed
             //    Location = "mail://4252468456@tmomail.com"
             //};
 
-            var endp = da.getEndpoint("blah.blee");
-            endp.Enabled = true;
+            //var endp = da.getEndpoint("blah.blee");
+            //endp.Enabled = true;
 
 
-            da.saveEndpoint(endp);
+            //da.saveEndpoint(endp);
+
+            var g = Guid.NewGuid();
+            Console.WriteLine(g.ToString());
+            Console.WriteLine(g.ToString().Replace("-", ""));
+            Console.ReadLine();
         }
     }
 }

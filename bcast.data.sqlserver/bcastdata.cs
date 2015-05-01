@@ -23,6 +23,7 @@ namespace bcast.data.sqlserver
 
         public virtual DbSet<Account> Account { get; set; }
         public virtual DbSet<Endpoint> Endpoint { get; set; }
+        public virtual DbSet<Item> Item { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -53,8 +54,9 @@ namespace bcast.data.sqlserver
                 .Ignore(x => x.AccountName)
                 .Ignore(x => x.ItemName)
                 .Ignore(x => x.LocationUri);
-                
-                
+
+            modelBuilder.Entity<Item>()
+                .HasKey(x => x.id);
         }
     }
 

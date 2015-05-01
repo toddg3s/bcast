@@ -70,6 +70,10 @@
     <Compile Include="Migrations\201504160151013_AccountEmail.Designer.cs">
       <DependentUpon>201504160151013_AccountEmail.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201504262334237_itemtable.cs" />
+    <Compile Include="Migrations\201504262334237_itemtable.Designer.cs">
+      <DependentUpon>201504262334237_itemtable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -98,6 +102,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201504160151013_AccountEmail.resx">
       <DependentUpon>201504160151013_AccountEmail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201504262334237_itemtable.resx">
+      <DependentUpon>201504262334237_itemtable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
