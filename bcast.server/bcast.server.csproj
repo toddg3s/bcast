@@ -93,6 +93,7 @@
   <ItemGroup>
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="AspNetCacheAccess.cs" />
     <Compile Include="Controllers\PollController.cs" />
     <Compile Include="Controllers\SendController.cs" />
     <Compile Include="Global.asax.cs">
@@ -121,6 +122,10 @@
     <ProjectReference Include="..\bcast.data.sqlserver\bcast.data.sqlserver.csproj">
       <Project>{c97ba48b-3dd7-4096-a7dd-f2e8b5930181}</Project>
       <Name>bcast.data.sqlserver</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\bcast.log4net\bcast.log4net.csproj">
+      <Project>{707a410a-70e5-48af-9fa0-1dc9db7b48aa}</Project>
+      <Name>bcast.log4net</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

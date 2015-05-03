@@ -4,13 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{FE05CA6E-E221-4C12-80D4-8D889112AE35}</ProjectGuid>
+    <ProjectGuid>{707A410A-70E5-48AF-9FA0-1DC9DB7B48AA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>bcast.common</RootNamespace>
-    <AssemblyName>bcast.common</AssemblyName>
+    <RootNamespace>bcast.log4net</RootNamespace>
+    <AssemblyName>bcast.log4net</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -39,20 +43,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Account.cs" />
-    <Compile Include="Exceptions.cs" />
-    <Compile Include="Endpoint.cs" />
-    <Compile Include="Extensions.cs" />
-    <Compile Include="ICacheAccess.cs" />
-    <Compile Include="IAuthData.cs" />
-    <Compile Include="IDataAccess.cs" />
-    <Compile Include="ILogger.cs" />
-    <Compile Include="Item.cs" />
-    <Compile Include="ItemBase.cs" />
+    <Compile Include="Logger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Request.cs" />
-    <Compile Include="SecureAccount.cs" />
-    <Compile Include="SecurityContext.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\bcast.common\bcast.common.csproj">
+      <Project>{fe05ca6e-e221-4c12-80d4-8d889112ae35}</Project>
+      <Name>bcast.common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

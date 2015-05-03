@@ -6,12 +6,22 @@ using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 using bcast.common;
+using System.Text.RegularExpressions;
+using System.Configuration;
 
 namespace bcast.server.Controllers
 {
     public class SendController : ApiController
     {
+        public SendController(IDataAccess dataAccess, ICacheAccess cacheAccess, ILogger logger)
+        {
+            DataAccess = dataAccess;
+            CacheAccess = cacheAccess;
+            Logger = logger;
+        }
         public IDataAccess DataAccess { get; set; }
+        public ICacheAccess CacheAccess { get; set; }
+        public ILogger Logger { get; set; }
 
         [HttpGet]
         [Route("send/{id}")]
@@ -51,6 +61,46 @@ namespace bcast.server.Controllers
             if (req.Destination == null || req.Destination.Length == 0)
                 req.Destination = new string[] { "default" };
 
+            if(req.Destination.Length == 1 && req.Destination[0].Equals("all", StringComparison.InvariantCultureIgnoreCase))
+            {
+                // TODO: add parameters for selecting enabled only and allcast only
+                req.Destination = DataAccess.getEndpointList(req.Sec.account);
+            }
+
+            var polldest = new List<string>();
+            foreach(var dest in req.Destination)
+            {
+                var addr = CacheAccess.GetDestAddr(req.Sec.account, dest);
+                if(String.IsNullOrWhiteSpace(addr))
+                {
+                    var endp = DataAccess.getEndpoint(req.Sec.account, dest);
+                    addr = (String.IsNullOrWhiteSpace(endp.Location)) ? "poll" : endp.Location;
+                    CacheAccess.PutDestAddr(req.Sec.account, dest, addr);
+                }
+                if(addr=="poll" && !polldest.Contains(dest, StringComparer.InvariantCultureIgnoreCase))
+                {
+                    polldest.Add(dest);
+                }
+                else
+                {
+                    // TODO: Formulate direct request to addr
+                }
+            }
+
+            if(polldest.Count > 0)
+            {
+                int maxcachedatasize = 1024;
+                Int32.TryParse(ConfigurationManager.AppSettings["bcast.server.maxcachedatasize"], out maxcachedatasize);
+                if(req.Data.Length <= maxcachedatasize)
+                {
+                    CacheAccess.Put(req.Sec.account, polldest.ToArray(), req.Data);
+                }
+                else
+                {
+                    CacheAccess.Put(req.Sec.account, polldest.ToArray(), "{!db!}");
+                    // TODO: call data access method to store data in Items table;
+                }
+            }
         }
 
         private string GuessSource(string id, HttpContext httpContext)
@@ -68,7 +118,33 @@ namespace bcast.server.Controllers
 
         private string GuessDataType(string id, string data)
         {
-            throw new NotImplementedException();
+            var dt = "text";
+            var d = data.Trim().ToLower();
+            if(d.Length < 250)
+            {
+                if (d.StartsWith("http") || d.Contains("www.") || Regex.IsMatch(d, "weburl_regex_pattern"))
+                {
+                    return "hyperlink";
+                }
+                if (d.StartsWith("mailto") || Regex.IsMatch(d, "email_regex_pattern"))
+                {
+                    return "email";
+                }
+            }
+
+            if(d.StartsWith("begin:vcard"))
+            {
+                return "contact/vcard";
+            }
+            if(d.StartsWith("<?xml"))
+            {
+                // TODO: Check for specific schemas
+
+                return "xml";
+            }
+
+
+            return dt;
         }
 
     }

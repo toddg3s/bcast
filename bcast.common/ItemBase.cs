@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace bcast.common
 {
-    public class SecurityContext
+    public class ItemBase
     {
-        public string id { get; set; }
-        public string account { get; set; }
+        public bool Immediate { get; set; }
+        public string DataType { get; set; }
+        public string Data { get; set; }
     }
 }

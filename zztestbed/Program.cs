@@ -50,6 +50,11 @@ namespace zztestbed
 
             Uri pull2 = (new UriBuilder("pull", "")).Uri;
 
+            //da.saveEndpoint(endp);
+
+            var g = Guid.NewGuid();
+            Console.WriteLine(g.ToString());
+            Console.WriteLine(g.ToString().Replace("-", ""));
             Console.ReadLine();
         }
     }

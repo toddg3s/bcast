@@ -71,6 +71,10 @@
     <Compile Include="Migrations\201504160151013_AccountEmail.Designer.cs">
       <DependentUpon>201504160151013_AccountEmail.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201504262334237_itemtable.cs" />
+    <Compile Include="Migrations\201504262334237_itemtable.Designer.cs">
+      <DependentUpon>201504262334237_itemtable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\201504190045357_resetcode.cs" />
     <Compile Include="Migrations\201504190045357_resetcode.Designer.cs">
       <DependentUpon>201504190045357_resetcode.cs</DependentUpon>
@@ -103,6 +107,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201504160151013_AccountEmail.resx">
       <DependentUpon>201504160151013_AccountEmail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201504262334237_itemtable.resx">
+      <DependentUpon>201504262334237_itemtable.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201504190045357_resetcode.resx">
       <DependentUpon>201504190045357_resetcode.cs</DependentUpon>

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bcast.server", "bcast.server\bcast.server.csproj", "{854019B5-F91C-4D90-84E2-34DD73CE2348}"
 EndProject
@@ -16,6 +16,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bcast.web", "bcast.web\bcast.web.csproj", "{C500F167-BF02-41DC-AB0E-9659808BD1DD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bcast.web.Tests", "bcast.web.Tests\bcast.web.Tests.csproj", "{B80B7E31-C8BF-4659-B7E4-8536B2AE5CCE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bcast.log4net", "bcast.log4net\bcast.log4net.csproj", "{707A410A-70E5-48AF-9FA0-1DC9DB7B48AA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bcast.auth", "bcast.auth\bcast.auth.csproj", "{82D25CCF-8E56-42B4-A26F-1385E0FC45F1}"
 EndProject
@@ -57,6 +59,10 @@ Global
 		{B80B7E31-C8BF-4659-B7E4-8536B2AE5CCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B80B7E31-C8BF-4659-B7E4-8536B2AE5CCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B80B7E31-C8BF-4659-B7E4-8536B2AE5CCE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{707A410A-70E5-48AF-9FA0-1DC9DB7B48AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{707A410A-70E5-48AF-9FA0-1DC9DB7B48AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{707A410A-70E5-48AF-9FA0-1DC9DB7B48AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{707A410A-70E5-48AF-9FA0-1DC9DB7B48AA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{82D25CCF-8E56-42B4-A26F-1385E0FC45F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{82D25CCF-8E56-42B4-A26F-1385E0FC45F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{82D25CCF-8E56-42B4-A26F-1385E0FC45F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
