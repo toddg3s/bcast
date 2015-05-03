@@ -16,5 +16,7 @@ namespace bcast.common
         Func<string, bool> Remove { get; set; }
         string Backup();
         void Restore(string backup);
+        string GetDestAddr(string account, string dest);
+        void PutDestAddr(string account, string dest, string addr);
     }
 }

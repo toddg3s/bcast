@@ -11,12 +11,13 @@ namespace bcast.server
 {
     public class AspNetCacheAccess : ICacheAccess
     {
-        private const string prefix = "idtable|";
+        private const string idprefix = "idtable|";
+        private const string destprefix = "dest|";
 
         public string Put(string account, string[] dest, object data)
         {
             var id = Guid.NewGuid().ToString().Replace("-", "").ToLower();
-            var key = prefix + account;
+            var key = idprefix + account;
             var idtable = HttpContext.Current.Cache[key] as Dictionary<string, string[]>;
             if (idtable == null)
             {
@@ -38,7 +39,7 @@ namespace bcast.server
 
         public string[] List(string account, string dest)
         {
-            var key = prefix + account;
+            var key = idprefix + account;
             var idtable = HttpContext.Current.Cache[key] as Dictionary<string, string[]>;
             if (idtable == null)
                 return null;
@@ -64,7 +65,7 @@ namespace bcast.server
             var entry = HttpContext.Current.Cache[id] as CacheEntry;
             if (entry == null) return;
 
-            var key = prefix + entry.Account;
+            var key = idprefix + entry.Account;
             var idtable = HttpContext.Current.Cache[key] as Dictionary<string, string[]>;
             if (idtable == null || !idtable.ContainsKey(id)) return;
 
@@ -100,10 +101,10 @@ namespace bcast.server
             var sb = new StringBuilder();
             foreach(System.Collections.DictionaryEntry entry in HttpContext.Current.Cache)
             {
-                if(entry.Key.ToString().StartsWith(prefix))
+                if(entry.Key.ToString().StartsWith(idprefix))
                 {
                     if (sb.Length > 0) sb.Append("|");
-                    sb.Append(entry.Key.ToString().Replace(prefix, ""));
+                    sb.Append(entry.Key.ToString().Replace(idprefix, ""));
                     sb.Append("@");
                     var idtable = entry.Value as Dictionary<string, string[]>;
                     bool first = true;
@@ -135,7 +136,7 @@ namespace bcast.server
                     var dest = tableparts[1].Split(",".ToCharArray());
                     idtable.Add(id, dest);
                 }
-                HttpContext.Current.Cache.Add(prefix + account, idtable, null, Cache.NoAbsoluteExpiration,
+                HttpContext.Current.Cache.Add(idprefix + account, idtable, null, Cache.NoAbsoluteExpiration,
                     Cache.NoSlidingExpiration, CacheItemPriority.Default, null);
             }
         }
@@ -171,6 +172,23 @@ namespace bcast.server
             public string[] Dest { get; set; }
             public object Data { get; set; }
             public DateTime Timestamp { get; set; }
+        }
+
+
+        public string GetDestAddr(string account, string dest)
+        {
+            var entry = HttpContext.Current.Cache[destprefix + account + "." + dest] as string;
+            return entry ?? "";
+        }
+
+        public void PutDestAddr(string account, string dest, string addr)
+        {
+            HttpContext.Current.Cache.Remove(destprefix + account + "." + dest);
+
+            int destlifetime = 360;  // 6 hours
+            Int32.TryParse(ConfigurationManager.AppSettings["destlifetime"], out destlifetime);
+            HttpContext.Current.Cache.Add(destprefix + account + "." + dest, addr, null, Cache.NoAbsoluteExpiration,
+                new TimeSpan(0, destlifetime, 0), CacheItemPriority.Default, null);
         }
     }
 

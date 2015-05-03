@@ -9,5 +9,6 @@ namespace bcast.common
     public class SecurityContext
     {
         public string id { get; set; }
+        public string account { get; set; }
     }
 }
