@@ -2,28 +2,16 @@
 
 namespace bcast.web.Models
 {
-    public class ExternalLoginConfirmationViewModel
-    {
-        [Required]
-        [EmailAddress]
-        [Display(Name = "Email")]
-        public string Email { get; set; }
-    }
-
-    public class ExternalLoginListViewModel
-    {
-        public string Action { get; set; }
-        public string ReturnUrl { get; set; }
-    }
-
     public class ManageUserViewModel
     {
-        [Required]
+        [DataType(DataType.EmailAddress)]
+        [Display(Name = "Email Address")]
+        public string Email { get; set; }
+
         [DataType(DataType.Password)]
         [Display(Name = "Current password")]
         public string OldPassword { get; set; }
 
-        [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [RegularExpression(@"(?=^.{8,}$)(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s)[0-9a-zA-Z!@#$%^&*()]*$", ErrorMessage = "{0} must be at least 8 characters and contain at least 1 lower-case, 1 upper-case and 1 number.")]
         [DataType(DataType.Password)]
@@ -39,9 +27,8 @@ namespace bcast.web.Models
     public class LoginViewModel
     {
         [Required]
-        [EmailAddress]
-        [Display(Name = "Email")]
-        public string Email { get; set; }
+        [Display(Name = "Username")]
+        public string Username { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
@@ -57,7 +44,7 @@ namespace bcast.web.Models
         [Required]
         [Display(Name = "Username")]
         [DataType(DataType.Text)]
-        [StringLength(128, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 5)]
+        [StringLength(128, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 4)]
         [RegularExpression("^[a-zA-Z0-9]+$", ErrorMessage = "The {0} must only have letters and numbers.")]
         public string Username { get; set; }
 
@@ -81,10 +68,7 @@ namespace bcast.web.Models
 
     public class ResetPasswordViewModel
     {
-        [Required]
-        [EmailAddress]
-        [Display(Name = "Email")]
-        public string Email { get; set; }
+        public string Username { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]

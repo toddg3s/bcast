@@ -10,6 +10,7 @@ namespace bcast.common
     {
         string[] getAccountList(bool includeLocked);
         Account getAcccount(string name);
+        Account getAccountByEmail(string email);
         void saveAccount(Account account);
         string[] getEndpointList(string accountName);
         Endpoint getEndpoint(string fullName);

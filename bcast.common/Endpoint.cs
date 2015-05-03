@@ -46,8 +46,7 @@ namespace bcast.common
         Windows,
         Mac,
         Linux,
-        IPod,
-        IPhone,
+        IOS,
         Android,
         WinPhone,
         Other

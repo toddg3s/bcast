@@ -11,33 +11,24 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Owin;
 using bcast.web.Models;
+using bcast.authclient;
+using System.Web.Security;
+using bcast.common;
+using System.Text;
+using System.Net.Mail;
+using System.Configuration;
 
 namespace bcast.web.Controllers
 {
     [Authorize]
     public class AccountController : Controller
     {
-        private ApplicationUserManager _userManager;
-
-        public AccountController()
+        public AccountController(IDataAccess dataAccess)
         {
+            DataAccess = dataAccess;
         }
 
-        public AccountController(ApplicationUserManager userManager)
-        {
-            UserManager = userManager;
-        }
-
-        public ApplicationUserManager UserManager {
-            get
-            {
-                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-            private set
-            {
-                _userManager = value;
-            }
-        }
+        public IDataAccess DataAccess { get; set; }
 
         //
         // GET: /Account/Login
@@ -57,10 +48,10 @@ namespace bcast.web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await UserManager.FindAsync(model.Email, model.Password);
-                if (user != null)
+                var token = Auth.Check(model.Username, model.Password);
+                if (!String.IsNullOrWhiteSpace(token))
                 {
-                    await SignInAsync(user, model.RememberMe);
+                    SetAuthCookie(model.Username);
                     return RedirectToLocal(returnUrl);
                 }
                 else
@@ -71,6 +62,13 @@ namespace bcast.web.Controllers
 
             // If we got this far, something failed, redisplay form
             return View(model);
+        }
+
+        private void SetAuthCookie(string username)
+        {
+            var authTicket = new FormsAuthenticationTicket(username, true, 30);
+            var faCookie = new HttpCookie(FormsAuthentication.FormsCookieName, FormsAuthentication.Encrypt(authTicket));
+            Response.Cookies.Add(faCookie);
         }
 
         //
@@ -90,23 +88,18 @@ namespace bcast.web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
-                IdentityResult result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+                var token = Auth.Create(model.Username, model.Password);
+                if(!String.IsNullOrWhiteSpace(token))
                 {
-                    await SignInAsync(user, isPersistent: false);
-
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
+                    var acct = DataAccess.getAcccount(model.Username);
+                    acct.Email = model.Email;
+                    DataAccess.saveAccount(acct);
+                    SetAuthCookie(model.Username);
                     return RedirectToAction("Index", "Home");
                 }
                 else
                 {
-                    AddErrors(result);
+                    ModelState.AddModelError("", "blah");
                 }
             }
 
@@ -114,6 +107,7 @@ namespace bcast.web.Controllers
             return View(model);
         }
 
+        /*
         //
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]
@@ -135,6 +129,7 @@ namespace bcast.web.Controllers
                 return View();
             }
         }
+         */
 
         //
         // GET: /Account/ForgotPassword
@@ -153,19 +148,38 @@ namespace bcast.web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await UserManager.FindByNameAsync(model.Email);
-                if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
+                var acct = DataAccess.getAccountByEmail(model.Email);
+                if(acct!=null)
                 {
-                    ModelState.AddModelError("", "The user either does not exist or is not confirmed.");
-                    return View();
-                }
+                    if(acct.Locked)
+                    {
+                        ModelState.AddModelError("", "This account is currently locked.  Contact admin@bcast.it to unlock it.");
+                    }
+                    else
+                    {
+                        Random r = new Random((DateTime.Now - new DateTime(2015, 04, 18)).Seconds);
 
-                // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                // Send an email with this link
-                // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
-                // await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                // return RedirectToAction("ForgotPasswordConfirmation", "Account");
+                        var sb = new StringBuilder();
+
+                        for (var i = 0; i < 10; i++)
+                        {
+                            sb.Append((Char)r.Next(97, 122));
+                        }
+
+                        var callbackUrl = Url.Action("ResetPassword", "Account", new { username = acct.Name, code = sb.ToString() }, protocol: Request.Url.Scheme);		
+
+                        var mail = new SmtpClient(ConfigurationManager.AppSettings["bcast.web.smtpserver"], Int32.Parse(ConfigurationManager.AppSettings["bcast.web.smtpport"]));
+                        mail.Credentials = new System.Net.NetworkCredential(ConfigurationManager.AppSettings["bcast.web.smtpuser"], "password");
+                        var msg = new MailMessage();
+                        msg.To.Add(new MailAddress(model.Email));
+                        msg.From = new MailAddress("noreply@bcast.it");
+                        msg.Subject = "bcast Password reset request";
+                        msg.Body = "<html><<body>To reset your password, follow this link: <a href=\"" + callbackUrl + "\">" + callbackUrl + "</a></body></html>";
+                        msg.IsBodyHtml = true;
+
+                        return RedirectToAction("ForgotPasswordConfirmation", "Account");
+                    }
+                }
             }
 
             // If we got this far, something failed, redisplay form
@@ -183,13 +197,13 @@ namespace bcast.web.Controllers
         //
         // GET: /Account/ResetPassword
         [AllowAnonymous]
-        public ActionResult ResetPassword(string code)
+        public ActionResult ResetPassword(string username, string code)
         {
-            if (code == null) 
+            if (username == null || code == null) 
             {
                 return View("Error");
             }
-            return View();
+            return View(new ResetPasswordViewModel() { Username = username, Code = code });
         }
 
         //
@@ -201,21 +215,32 @@ namespace bcast.web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await UserManager.FindByNameAsync(model.Email);
-                if (user == null)
+                var acct = DataAccess.getAcccount(model.Username);
+                if(acct==null)
                 {
-                    ModelState.AddModelError("", "No user found.");
-                    return View();
-                }
-                IdentityResult result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
-                if (result.Succeeded)
-                {
-                    return RedirectToAction("ResetPasswordConfirmation", "Account");
+                    // TODO: Log failure (?)
+                    ModelState.AddModelError("", "Password reset could not be completed.  Please contact admin@bcast.it.");
                 }
                 else
                 {
-                    AddErrors(result);
-                    return View();
+                    if(acct.ResetCode!= model.Code)
+                    {
+                        // TODO: Log failure (?)
+                        ModelState.AddModelError("", "Password reset could not be completed.  Please contact admin@bcast.it");
+                    }
+                    else
+                    {
+                        var token = Auth.Reset(model.Username, model.Password);
+                        if (!String.IsNullOrEmpty(token))
+                        {
+                            SetAuthCookie(model.Username);
+                            return RedirectToAction("ResetPasswordConfirmation", "Account");
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("", "Reset password failed");
+                        }
+                    }
                 }
             }
 
@@ -225,12 +250,13 @@ namespace bcast.web.Controllers
 
         //
         // GET: /Account/ResetPasswordConfirmation
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public ActionResult ResetPasswordConfirmation()
         {
             return View();
         }
 
+        /*
         //
         // POST: /Account/Disassociate
         [HttpPost]
@@ -251,7 +277,7 @@ namespace bcast.web.Controllers
             }
             return RedirectToAction("Manage", new { Message = message });
         }
-
+        */
         //
         // GET: /Account/Manage
         public ActionResult Manage(ManageMessageId? message)
@@ -262,7 +288,6 @@ namespace bcast.web.Controllers
                 : message == ManageMessageId.RemoveLoginSuccess ? "The external login was removed."
                 : message == ManageMessageId.Error ? "An error has occurred."
                 : "";
-            ViewBag.HasLocalPassword = HasPassword();
             ViewBag.ReturnUrl = Url.Action("Manage");
             return View();
         }
@@ -273,53 +298,15 @@ namespace bcast.web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Manage(ManageUserViewModel model)
         {
-            bool hasPassword = HasPassword();
-            ViewBag.HasLocalPassword = hasPassword;
             ViewBag.ReturnUrl = Url.Action("Manage");
-            if (hasPassword)
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
-                {
-                    IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
-                    if (result.Succeeded)
-                    {
-                        var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-                        await SignInAsync(user, isPersistent: false);
-                        return RedirectToAction("Manage", new { Message = ManageMessageId.ChangePasswordSuccess });
-                    }
-                    else
-                    {
-                        AddErrors(result);
-                    }
-                }
-            }
-            else
-            {
-                // User does not have a password so remove any validation errors caused by a missing OldPassword field
-                ModelState state = ModelState["OldPassword"];
-                if (state != null)
-                {
-                    state.Errors.Clear();
-                }
-
-                if (ModelState.IsValid)
-                {
-                    IdentityResult result = await UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
-                    if (result.Succeeded)
-                    {
-                        return RedirectToAction("Manage", new { Message = ManageMessageId.SetPasswordSuccess });
-                    }
-                    else
-                    {
-                        AddErrors(result);
-                    }
-                }
             }
 
             // If we got this far, something failed, redisplay form
             return View(model);
         }
-
+/*
         //
         // POST: /Account/ExternalLogin
         [HttpPost]
@@ -357,7 +344,7 @@ namespace bcast.web.Controllers
                 return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
             }
         }
-
+        
         //
         // POST: /Account/LinkLogin
         [HttpPost]
@@ -429,14 +416,14 @@ namespace bcast.web.Controllers
             ViewBag.ReturnUrl = returnUrl;
             return View(model);
         }
-
+        */
         //
         // POST: /Account/LogOff
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-            AuthenticationManager.SignOut();
+            Response.Cookies.Remove(FormsAuthentication.FormsCookieName);
             return RedirectToAction("Index", "Home");
         }
 
@@ -448,21 +435,8 @@ namespace bcast.web.Controllers
             return View();
         }
 
-        [ChildActionOnly]
-        public ActionResult RemoveAccountList()
-        {
-            var linkedAccounts = UserManager.GetLogins(User.Identity.GetUserId());
-            ViewBag.ShowRemoveButton = HasPassword() || linkedAccounts.Count > 1;
-            return (ActionResult)PartialView("_RemoveAccountPartial", linkedAccounts);
-        }
-
         protected override void Dispose(bool disposing)
         {
-            if (disposing && UserManager != null)
-            {
-                UserManager.Dispose();
-                UserManager = null;
-            }
             base.Dispose(disposing);
         }
 
@@ -476,35 +450,6 @@ namespace bcast.web.Controllers
             {
                 return HttpContext.GetOwinContext().Authentication;
             }
-        }
-
-        private async Task SignInAsync(ApplicationUser user, bool isPersistent)
-        {
-            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
-            AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = isPersistent }, await user.GenerateUserIdentityAsync(UserManager));
-        }
-
-        private void AddErrors(IdentityResult result)
-        {
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError("", error);
-            }
-        }
-
-        private bool HasPassword()
-        {
-            var user = UserManager.FindById(User.Identity.GetUserId());
-            if (user != null)
-            {
-                return user.PasswordHash != null;
-            }
-            return false;
-        }
-
-        private void SendEmail(string email, string callbackUrl, string subject, string message)
-        {
-            // For information on sending mail, please visit http://go.microsoft.com/fwlink/?LinkID=320771
         }
 
         public enum ManageMessageId
@@ -527,33 +472,6 @@ namespace bcast.web.Controllers
             }
         }
 
-        private class ChallengeResult : HttpUnauthorizedResult
-        {
-            public ChallengeResult(string provider, string redirectUri) : this(provider, redirectUri, null)
-            {
-            }
-
-            public ChallengeResult(string provider, string redirectUri, string userId)
-            {
-                LoginProvider = provider;
-                RedirectUri = redirectUri;
-                UserId = userId;
-            }
-
-            public string LoginProvider { get; set; }
-            public string RedirectUri { get; set; }
-            public string UserId { get; set; }
-
-            public override void ExecuteResult(ControllerContext context)
-            {
-                var properties = new AuthenticationProperties() { RedirectUri = RedirectUri };
-                if (UserId != null)
-                {
-                    properties.Dictionary[XsrfKey] = UserId;
-                }
-                context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
-            }
-        }
         #endregion
     }
 }

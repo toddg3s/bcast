@@ -22,6 +22,11 @@ namespace bcast.data.sqlserver
             return Data.Account.Find(name);
         }
 
+        public Account getAccountByEmail(string email)
+        {
+            return (from acct in Data.Account where acct.Email.Equals(email.Trim(), StringComparison.InvariantCultureIgnoreCase) select acct).FirstOrDefault();
+        }
+
         public void saveAccount(Account account)
         {
             var acct = Data.Account.Find(account.Name);
