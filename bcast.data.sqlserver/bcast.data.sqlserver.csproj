@@ -51,33 +51,9 @@
     <Compile Include="AuthDataImpl.cs" />
     <Compile Include="bcastdata.cs" />
     <Compile Include="DataAccessImpl.cs" />
-    <Compile Include="Migrations\201504150059168_initial.cs" />
-    <Compile Include="Migrations\201504150059168_initial.Designer.cs">
-      <DependentUpon>201504150059168_initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201504150341439_reqdfields.cs" />
-    <Compile Include="Migrations\201504150341439_reqdfields.Designer.cs">
-      <DependentUpon>201504150341439_reqdfields.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201504150617065_ignorefields.cs" />
-    <Compile Include="Migrations\201504150617065_ignorefields.Designer.cs">
-      <DependentUpon>201504150617065_ignorefields.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201504160044035_secureaccount.cs" />
-    <Compile Include="Migrations\201504160044035_secureaccount.Designer.cs">
-      <DependentUpon>201504160044035_secureaccount.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201504160151013_AccountEmail.cs" />
-    <Compile Include="Migrations\201504160151013_AccountEmail.Designer.cs">
-      <DependentUpon>201504160151013_AccountEmail.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201504262334237_itemtable.cs" />
-    <Compile Include="Migrations\201504262334237_itemtable.Designer.cs">
-      <DependentUpon>201504262334237_itemtable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201504190045357_resetcode.cs" />
-    <Compile Include="Migrations\201504190045357_resetcode.Designer.cs">
-      <DependentUpon>201504190045357_resetcode.cs</DependentUpon>
+    <Compile Include="Migrations\201507032059184_initial.cs" />
+    <Compile Include="Migrations\201507032059184_initial.Designer.cs">
+      <DependentUpon>201507032059184_initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -93,26 +69,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201504150059168_initial.resx">
-      <DependentUpon>201504150059168_initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201504150341439_reqdfields.resx">
-      <DependentUpon>201504150341439_reqdfields.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201504150617065_ignorefields.resx">
-      <DependentUpon>201504150617065_ignorefields.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201504160044035_secureaccount.resx">
-      <DependentUpon>201504160044035_secureaccount.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201504160151013_AccountEmail.resx">
-      <DependentUpon>201504160151013_AccountEmail.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201504262334237_itemtable.resx">
-      <DependentUpon>201504262334237_itemtable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201504190045357_resetcode.resx">
-      <DependentUpon>201504190045357_resetcode.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201507032059184_initial.resx">
+      <DependentUpon>201507032059184_initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

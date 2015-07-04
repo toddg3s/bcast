@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace bcast.common
 {
-    public class Item : ItemBase
+    public class Item
     {
         public string id { get; set; }
+        public string DataType { get; set; }
+        public string Data { get; set; }
     }
 }

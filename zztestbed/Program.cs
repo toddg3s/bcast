@@ -3,6 +3,7 @@ using bcast.common;
 using bcast.data.sqlserver;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -46,15 +47,19 @@ namespace zztestbed
             //}
             //Console.WriteLine(sb.ToString());
 
-            Uri pull = new Uri("pull://");
+            //Uri pull = new Uri("pull://");
 
-            Uri pull2 = (new UriBuilder("pull", "")).Uri;
+            //Uri pull2 = (new UriBuilder("pull", "")).Uri;
 
             //da.saveEndpoint(endp);
 
-            var g = Guid.NewGuid();
-            Console.WriteLine(g.ToString());
-            Console.WriteLine(g.ToString().Replace("-", ""));
+            //var g = Guid.NewGuid();
+            //Console.WriteLine(g.ToString());
+            //Console.WriteLine(g.ToString().Replace("-", ""));
+
+            Process.Start("http://google.com");
+
+
             Console.ReadLine();
         }
     }

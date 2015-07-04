@@ -7,13 +7,13 @@ namespace bcast.data.sqlserver.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.0-30225")]
-    public sealed partial class itemtable : IMigrationMetadata
+    public sealed partial class initial : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(itemtable));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(initial));
         
         string IMigrationMetadata.Id
         {
-            get { return "201504262334237_itemtable"; }
+            get { return "201507032059184_initial"; }
         }
         
         string IMigrationMetadata.Source

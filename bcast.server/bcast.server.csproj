@@ -94,6 +94,7 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="AspNetCacheAccess.cs" />
+    <Compile Include="Controllers\EndpointController.cs" />
     <Compile Include="Controllers\PollController.cs" />
     <Compile Include="Controllers\SendController.cs" />
     <Compile Include="Global.asax.cs">

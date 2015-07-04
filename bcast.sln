@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bcast.server", "bcast.server\bcast.server.csproj", "{854019B5-F91C-4D90-84E2-34DD73CE2348}"
 EndProject
@@ -24,6 +24,13 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bcast.auth.Tests", "bcast.auth.Tests\bcast.auth.Tests.csproj", "{8BFFB08B-FEC8-4964-B94F-039B6BEC8EAC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bcast.authclient", "bcast.authclient\bcast.authclient.csproj", "{AD51A76B-B373-41E5-85CF-F8858A31E941}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bcast.tray", "bcast.tray\bcast.tray.csproj", "{7A94253B-2E57-4943-9B00-50FC78CC2CC3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DE25F529-053C-49F7-8C1D-E38FE77B3FA9}"
+	ProjectSection(SolutionItems) = preProject
+		bcast.ico = bcast.ico
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +82,10 @@ Global
 		{AD51A76B-B373-41E5-85CF-F8858A31E941}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD51A76B-B373-41E5-85CF-F8858A31E941}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD51A76B-B373-41E5-85CF-F8858A31E941}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A94253B-2E57-4943-9B00-50FC78CC2CC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A94253B-2E57-4943-9B00-50FC78CC2CC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A94253B-2E57-4943-9B00-50FC78CC2CC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A94253B-2E57-4943-9B00-50FC78CC2CC3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
