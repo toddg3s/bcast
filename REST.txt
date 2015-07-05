@@ -1,0 +1,18 @@
+GET   /{account} - Gets account info
+POST  /{account} - Creates an account
+PUT   /{account} - Updates an account
+DELETE/{account} - Deletes an account
+GET   /{account}/{endpoint} - gets endpoint info
+POST  /{account}/{endpoint} - Creates a new endpoint
+PUT   /{account}/{endpoint} - Updates an endpoint
+DELETE/{account}/{endpoint} - Delete endpoint
+GET   /{account}/{endpoint}/items - gets all items waiting on endpoint
+GET   /{account}/{endpoint}/items/count - gets count of items waiting for endpoint
+GET   /{account}/{endpoint}/items/summary - gets list of ids waiting on endpoint
+POST  /{account}/{endpoint}/items - Adds an item to an endpoint.  {endpoint} can be "all" or "default"
+PUT   /{account}/{endpoint}/items - ???  Also add item?
+DELETE/{account}/{endpoint}/items - Deletes all items from endpoint (clear)
+GET   /{account}/{endpoint}/items/{id} - Gets specific item on endpoint.  This removes the item from the endpoint
+POST  /{account}/{endpoint}/items/{id} - ???
+PUT   /{account}/{endpoint}/items/{id} - ???   Update item?
+DELETE/{account}/{endpoint}/items/{id} - Delete item from endpoint

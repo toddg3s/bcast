@@ -9,7 +9,7 @@ namespace bcast.common
     public interface IDataAccess
     {
         string[] getAccountList(bool includeLocked);
-        Account getAcccount(string name);
+        Account getAccount(string name);
         Account getAccountByEmail(string email);
         void saveAccount(Account account);
         string[] getEndpointList(string accountName);

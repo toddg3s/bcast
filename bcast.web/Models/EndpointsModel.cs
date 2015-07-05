@@ -36,7 +36,7 @@ namespace bcast.web.Models
         [Display(Name = "Name", Description = "The unique name of this endpoint.  Something like 'iPhone' or 'HomeComputer'.  The name must contain only letters and numbers.")]
         [StringLength(128, ErrorMessage = "The {0} must be between 3 and 128 characters long.", MinimumLength = 3)]
         [RegularExpression("^[a-zA-Z0-9]+$", ErrorMessage = "The {0} must only have letters and numbers.")]
-        public string mItemName { get { return ItemName; } set { ItemName = value; } }
+        public string mItemName { get { return Name; } set { Name = value; } }
 
         [Required]
         [Display(Name = "Type", Description = "The type of device this is.")]

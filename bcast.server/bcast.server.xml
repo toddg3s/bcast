@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>bcast.server</name>
+    </assembly>
+    <members>
+        <member name="T:bcast.server.Controllers.AccountController">
+            <summary>
+            Endpoints to manage bcast accounts
+            </summary>
+        </member>
+        <member name="M:bcast.server.Controllers.AccountController.GetAccount(System.String)">
+            <summary>
+            This endpoint returns account information
+            </summary>
+            <param name="account">The name of the account</param>
+            <returns>Account object</returns>
+        </member>
+        <member name="M:bcast.server.Controllers.AccountController.CreateAccount(System.String,bcast.server.Models.AccountCreateRequest)">
+            <summary>
+            This endpoint creates a new account
+            </summary>
+            <param name="account">The name of the new account</param>
+            <param name="request">A request object with the email and password for the new account</param>
+            <returns>Token that can be used to make further calls</returns>
+        </member>
+        <member name="M:bcast.server.Controllers.AccountController.UpdateAccount(System.String,bcast.server.Models.AccountUpdateRequest)">
+            <summary>
+            This endpoint provides the ability to update an existing account
+            </summary>
+            <param name="account">The name of the account to update</param>
+            <param name="request">Request object specifying the new values for the account</param>
+            <returns></returns>
+        </member>
+        <member name="M:bcast.server.Controllers.AccountController.DeleteAccount(System.String)">
+            <summary>
+            This endpoint allows an account to be deleted
+            </summary>
+            <param name="account">The name of the accuont to delete</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

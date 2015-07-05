@@ -54,9 +54,7 @@
     <Compile Include="ImageUriItem.cs" />
     <Compile Include="Item.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Request.cs" />
     <Compile Include="SecureAccount.cs" />
-    <Compile Include="SecurityContext.cs" />
     <Compile Include="UriItem.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

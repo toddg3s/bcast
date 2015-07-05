@@ -55,6 +55,14 @@
     <Compile Include="Migrations\201507032059184_initial.Designer.cs">
       <DependentUpon>201507032059184_initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201507042038551_EntityName.cs" />
+    <Compile Include="Migrations\201507042038551_EntityName.Designer.cs">
+      <DependentUpon>201507042038551_EntityName.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201507052127474_RemoveRequestAndSecurity.cs" />
+    <Compile Include="Migrations\201507052127474_RemoveRequestAndSecurity.Designer.cs">
+      <DependentUpon>201507052127474_RemoveRequestAndSecurity.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -71,6 +79,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201507032059184_initial.resx">
       <DependentUpon>201507032059184_initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201507042038551_EntityName.resx">
+      <DependentUpon>201507042038551_EntityName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201507052127474_RemoveRequestAndSecurity.resx">
+      <DependentUpon>201507052127474_RemoveRequestAndSecurity.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

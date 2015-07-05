@@ -17,7 +17,7 @@ namespace bcast.data.sqlserver
             return (from acct in Data.Account where includeLocked || !acct.Locked select acct.Name).ToArray();
         }
 
-        public Account getAcccount(string name)
+        public Account getAccount(string name)
         {
             return Data.Account.Find(name);
         }
@@ -44,7 +44,7 @@ namespace bcast.data.sqlserver
 
         public string[] getEndpointList(string accountName)
         {
-            return (from endp in Data.Endpoint where endp.Name.StartsWith(accountName + ".", StringComparison.InvariantCultureIgnoreCase) select endp.ItemName).ToArray();
+            return (from endp in Data.Endpoint where endp.Name.StartsWith(accountName + ".", StringComparison.InvariantCultureIgnoreCase) select endp.Name).ToArray();
         }
 
         public Endpoint getEndpoint(string fullName)

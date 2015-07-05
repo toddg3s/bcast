@@ -33,9 +33,9 @@ namespace bcast.data.sqlserver
             modelBuilder.Entity<SecureAccount>().ToTable("SecureAccount");
 
             modelBuilder.Entity<Endpoint>()
-                .HasKey(x => x.Name);
+                .HasKey(x => x.FullName);
             modelBuilder.Entity<Endpoint>()
-                .Property(x => x.Name)
+                .Property(x => x.FullName)
                 .HasMaxLength(257);
             modelBuilder.Entity<Endpoint>()
                 .Property(x => x.Location)
@@ -52,11 +52,11 @@ namespace bcast.data.sqlserver
 
             modelBuilder.Entity<Endpoint>()
                 .Ignore(x => x.AccountName)
-                .Ignore(x => x.ItemName)
+                .Ignore(x => x.Name)
                 .Ignore(x => x.LocationUri);
 
             modelBuilder.Entity<Item>()
-                .HasKey(x => x.id);
+                .HasKey(x => x.ID);
         }
     }
 

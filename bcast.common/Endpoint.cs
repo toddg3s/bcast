@@ -11,23 +11,24 @@ namespace bcast.common
     [DataContract(Name="endpoint")]
     public class Endpoint
     {
-        public string Name
+        [DataMember(Name="fullname")]
+        public string FullName
         {
             get
             {
-                return (AccountName ?? "") + "." + (ItemName ?? "");
+                return (AccountName ?? "") + "." + (Name ?? "");
             }
             set
             {
                 if(value==null)
                 {
                     AccountName = null;
-                    ItemName = null;
+                    Name = null;
                     return;
                 }
                 var parts = value.Split(".".ToCharArray());
                 AccountName = parts[0];
-                ItemName = (parts.Length > 1) ? parts[1] : "";
+                Name = (parts.Length > 1) ? parts[1] : "";
             }
         }
         [DataMember(Name="type")]
@@ -44,7 +45,7 @@ namespace bcast.common
         [DataMember(Name="account")]
         public string AccountName { get; set; }
         [DataMember(Name="name")]
-        public string ItemName { get; set; }
+        public string Name { get; set; }
 
         public Endpoint() { Enabled = true; AllCast = true; }
     }

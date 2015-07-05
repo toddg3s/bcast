@@ -91,7 +91,7 @@ namespace bcast.web.Controllers
                 var token = Auth.Create(model.Username, model.Password);
                 if(!String.IsNullOrWhiteSpace(token))
                 {
-                    var acct = DataAccess.getAcccount(model.Username);
+                    var acct = DataAccess.getAccount(model.Username);
                     acct.Email = model.Email;
                     DataAccess.saveAccount(acct);
                     SetAuthCookie(model.Username);
@@ -215,7 +215,7 @@ namespace bcast.web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var acct = DataAccess.getAcccount(model.Username);
+                var acct = DataAccess.getAccount(model.Username);
                 if(acct==null)
                 {
                     // TODO: Log failure (?)

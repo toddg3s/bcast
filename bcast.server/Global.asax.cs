@@ -17,6 +17,7 @@ namespace bcast.server
             
             GlobalConfiguration.Configure(WebApiConfig.Register);
             var container = UnityConfig.RegisterComponents();
+            
             // TODO: Call data access method to get backed up cache id table
             var backup = "";
 
