@@ -8,9 +8,11 @@ using System.Threading.Tasks;
 namespace bcast.server.Models
 {
     [DataContract]
-    public class SendRequest : SendDirectRequest
+    public class SendDirectRequest
     {
-        [DataMember(Name = "dest")]
-        public string[] Destination { get; set; }
+        [DataMember(Name = "type")]
+        public string DataType { get; set; }
+        [DataMember(Name = "data")]
+        public string Data { get; set; }
     }
 }

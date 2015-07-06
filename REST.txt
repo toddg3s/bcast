@@ -10,9 +10,8 @@ GET   /{account}/{endpoint}/items - gets all items waiting on endpoint
 GET   /{account}/{endpoint}/items/count - gets count of items waiting for endpoint
 GET   /{account}/{endpoint}/items/summary - gets list of ids waiting on endpoint
 POST  /{account}/{endpoint}/items - Adds an item to an endpoint.  {endpoint} can be "all" or "default"
-PUT   /{account}/{endpoint}/items - ???  Also add item?
 DELETE/{account}/{endpoint}/items - Deletes all items from endpoint (clear)
 GET   /{account}/{endpoint}/items/{id} - Gets specific item on endpoint.  This removes the item from the endpoint
-POST  /{account}/{endpoint}/items/{id} - ???
-PUT   /{account}/{endpoint}/items/{id} - ???   Update item?
 DELETE/{account}/{endpoint}/items/{id} - Delete item from endpoint
+GET   /{account}/{endpoint}/send?dest={dest}&data={data}
+POST  /{account}/{endpoint}/send

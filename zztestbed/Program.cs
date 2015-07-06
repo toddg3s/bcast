@@ -47,9 +47,13 @@ namespace zztestbed
             //}
             //Console.WriteLine(sb.ToString());
 
-            //Uri pull = new Uri("pull://");
+            Uri pull = new Uri("pull://");
 
-            //Uri pull2 = (new UriBuilder("pull", "")).Uri;
+            Uri pull2 = (new UriBuilder("pull", "")).Uri;
+
+            Uri mail = new Uri("mailto:todd@g3s.net");
+
+            Uri test = new Uri("www.google.com");
 
             //da.saveEndpoint(endp);
 
@@ -57,7 +61,7 @@ namespace zztestbed
             //Console.WriteLine(g.ToString());
             //Console.WriteLine(g.ToString().Replace("-", ""));
 
-            Process.Start("http://google.com");
+            //Process.Start("http://google.com");
 
 
             Console.ReadLine();

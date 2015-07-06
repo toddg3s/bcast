@@ -32,7 +32,12 @@ namespace bcast.common
         public static bool IsValidName(this string value)
         {
             // For now, names and accounts have the same rules.  If this changes, put the implementation here
-            return IsValidAccount(value);
+            var valid = IsValidAccount(value);
+            if (!valid) return false;
+            if (value.Equals("all", StringComparison.InvariantCultureIgnoreCase) &&
+                value.Equals("default", StringComparison.InvariantCultureIgnoreCase))
+                return false;
+            return true;
         }
 
         public static bool IsValidPassword(this string value)
@@ -125,6 +130,51 @@ namespace bcast.common
                 throw new ArgumentException("Error while getting EndpointType", ex);
             }
             throw new ArgumentException("Unknown");
+        }
+
+        public static string GuessDataType(this string value)
+        {
+            var dt = "text";
+            var d = value.Trim().ToLower();
+            if(d.Length < 500)
+            {
+                try
+                {
+                    var uri = new Uri(value);
+                    if(Array.IndexOf(new string[] { "http", "https", "ftp" }, uri.Scheme.ToLower()) >= 0)
+                    {
+                        return "hyperlink";
+                    }
+                    if(uri.Scheme.ToLower()=="mailto")
+                    {
+                        return "email";
+                    }
+                }
+                catch { }
+
+                if(Regex.IsMatch(d,@"^[A-Za-z0-9][A-Za-z0-9.-]+(:\d+)?(/.*)?$"))
+                {
+                    return "hyperlink";
+                }
+                if (Regex.IsMatch(d, @"[\w-]+@([\w-]+\.)+[\w-]+"))
+                {
+                    return "email";
+                }
+            }
+
+            if(d.StartsWith("begin:vcard"))
+            {
+                return "contact/vcard";
+            }
+            if(d.StartsWith("<?xml"))
+            {
+                // TODO: Check for specific schemas
+
+                return "xml";
+            }
+
+
+            return dt;
         }
     }
 }

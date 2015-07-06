@@ -111,13 +111,16 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\EndpointController.cs" />
     <Compile Include="Controllers\ItemsController.cs" />
+    <Compile Include="Controllers\SendController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountCreateRequest.cs" />
     <Compile Include="Models\AccountUpdateRequest.cs" />
     <Compile Include="Models\EndpointRequest.cs" />
+    <Compile Include="Models\SendDirectRequest.cs" />
     <Compile Include="Models\SendRequest.cs" />
+    <Compile Include="Models\SendSourceRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

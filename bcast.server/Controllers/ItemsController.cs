@@ -243,17 +243,24 @@ namespace bcast.server.Controllers
         [HttpPost]
         [Route("{account}/{name}/items")]
         [ResponseType(typeof(string))]
-        public IHttpActionResult SendItem(string account, string name, [FromBody] SendRequest request)
+        public IHttpActionResult SendItem(string account, string name, [FromBody] SendSourceRequest request)
         {
             if (!account.IsValidAccount())
             {
                 Logger.Debug(account, "Attempt to send item to endpoint '" + name ?? "null" + "' on invalid account");
                 return BadRequest("account value is not valid (alphanumeric, max 128 chars)");
             }
-            if (!name.IsValidName())
+            if (!name.IsValidName() && 
+                !name.Equals("all", StringComparison.InvariantCultureIgnoreCase) && 
+                !name.Equals("default", StringComparison.InvariantCultureIgnoreCase))
             {
                 Logger.Debug(account, "Attempt to send item to invalid endpoint '" + name ?? "null" + "'");
                 return BadRequest("name value is not valid (alphanumeric, max 128 chars)");
+            }
+            if(!request.Source.IsValidName())
+            {
+                Logger.Debug(account, "Attempt to send item from invalid source '" + request.Source ?? "null" + "'");
+                return BadRequest("Source parameter missing or invalid endpoint name");
             }
 
             return Ok();
